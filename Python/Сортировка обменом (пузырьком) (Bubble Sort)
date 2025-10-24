@@ -1,0 +1,25 @@
+def bubble_sort(arr):
+    """Сортирует массив методом пузырька."""
+    n = len(arr)
+    for i in range(n):
+        for j in range(0, n - i - 1):
+            if arr[j] > arr[j + 1]:
+                arr[j], arr[j + 1] = arr[j + 1], arr[j]
+
+def print_array(arr):
+    """Выводит элементы массива в строку."""
+    for i in range(len(arr)):
+        print(arr[i], end=" ")
+    print()
+
+# Пример использования
+if __name__ == "__main__":
+    arr = [64, 34, 25, 12, 22, 11, 90]
+
+    print("Исходный массив:", end=" ")
+    print_array(arr)
+
+    bubble_sort(arr)
+
+    print("Отсортированный массив:", end=" ")
+    print_array(arr)
