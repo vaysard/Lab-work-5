@@ -1,0 +1,50 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>  // Для std::swap
+
+using namespace std;
+
+// Функция сортировки выбором
+void selection_sort(vector<int>& arr) {
+  int n = arr.size();
+
+  // Проходим по всем элементам массива
+  for (int i = 0; i < n - 1; ++i) {  // n-1, т.к. последний элемент к этому моменту будет отсортирован
+    // Предполагаем, что первый элемент - минимальный
+    int min_index = i;
+
+    // Ищем минимальный элемент в оставшейся части массива
+    for (int j = i + 1; j < n; ++j) {
+      if (arr[j] < arr[min_index]) {
+        min_index = j;
+      }
+    }
+
+    // Меняем найденный минимальный элемент с первым элементом в неотсортированной части
+    if (min_index != i) {
+      swap(arr[i], arr[min_index]); // Используем std::swap для обмена
+    }
+  }
+}
+
+int main() {
+  // Создаем тестовый массив (vector<int> в C++)
+  vector<int> test_array = {64, 25, 12, 22, 11};
+
+  cout << "Исходный массив: ";
+  for (int num : test_array) {
+    cout << num << " ";
+  }
+  cout << endl;
+
+  // Сортируем массив
+  selection_sort(test_array);
+
+  cout << "Отсортированный массив: ";
+  for (int num : test_array) {
+    cout << num << " ";
+  }
+  cout << endl;
+
+  return 0;
+}
