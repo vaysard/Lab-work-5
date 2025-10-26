@@ -1,0 +1,45 @@
+public class SelectionSort {
+
+    public static void selectionSort(int[] arr) {
+        int n = arr.length;
+
+        // Проходим по всем элементам массива
+        for (int i = 0; i < n - 1; i++) {  // n-1, т.к. последний элемент будет отсортирован сам собой
+            // Предполагаем, что текущий элемент - минимальный
+            int min_index = i;
+
+            // Ищем минимальный элемент в оставшейся части массива
+            for (int j = i + 1; j < n; j++) {
+                if (arr[j] < arr[min_index]) {
+                    min_index = j;
+                }
+            }
+
+            // Меняем найденный минимальный элемент с текущим элементом
+            if (min_index != i) {
+                int temp = arr[i];
+                arr[i] = arr[min_index];
+                arr[min_index] = temp;
+            }
+        }
+    }
+
+    public static void printArray(int[] arr) {
+        for (int i = 0; i < arr.length; i++) {
+            System.out.print(arr[i] + " ");
+        }
+        System.out.println();
+    }
+
+    public static void main(String[] args) {
+        int[] test_array = {64, 25, 12, 22, 11};
+
+        System.out.print("Исходный массив: ");
+        printArray(test_array);
+
+        selectionSort(test_array);
+
+        System.out.print("Отсортированный массив: ");
+        printArray(test_array);
+    }
+}
