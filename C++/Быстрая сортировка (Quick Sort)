@@ -1,0 +1,55 @@
+#include <iostream>
+#include <vector>
+#include <algorithm> // Для std::swap
+
+using namespace std;
+
+// Функция разбиения массива
+int partition(vector<int>& arr, int low, int high) {
+    int pivot = arr[high];
+    int i = (low - 1); // Индекс меньшего элемента
+
+    for (int j = low; j <= high - 1; j++) {
+        // Если текущий элемент меньше или равен опорному
+        if (arr[j] <= pivot) {
+            i++;
+            swap(arr[i], arr[j]);
+        }
+    }
+    swap(arr[i + 1], arr[high]);
+    return (i + 1);
+}
+
+// Функция быстрой сортировки
+void quickSort(vector<int>& arr, int low, int high) {
+    if (low < high) {
+        // pi - это индекс разбиения, arr[pi] теперь на своем месте
+        int pi = partition(arr, low, high);
+
+        // Отсортировать элементы до и после разбиения
+        quickSort(arr, low, pi - 1);
+        quickSort(arr, pi + 1, high);
+    }
+}
+
+// Функция для вывода массива
+void printArray(const vector<int>& arr) {
+    for (int value : arr) {
+        cout << value << " ";
+    }
+    cout << endl;
+}
+
+int main() {
+    vector<int> array = {10, 7, 8, 9, 1, 5};
+
+    cout << "Исходный массив: ";
+    printArray(array);
+
+    quickSort(array, 0, array.size() - 1);
+
+    cout << "Отсортированный массив: ";
+    printArray(array);
+
+    return 0;
+}
