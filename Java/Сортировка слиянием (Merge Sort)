@@ -1,0 +1,86 @@
+import java.util.ArrayList;
+import java.util.List;
+
+public class MergeSort {
+
+    // Функция слияния двух отсортированных подмассивов
+    public static List<Integer> merge(List<Integer> left, List<Integer> right) {
+        List<Integer> result = new ArrayList<>();
+        int i = 0, j = 0;
+
+        // Пока есть элементы в обоих массивах
+        while (i < left.size() && j < right.size()) {
+            if (left.get(i) < right.get(j)) {
+                result.add(left.get(i));
+                i++;
+            } else {
+                result.add(right.get(j));
+                j++;
+            }
+        }
+
+        // Добавляем оставшиеся элементы из левого подмассива
+        while (i < left.size()) {
+            result.add(left.get(i));
+            i++;
+        }
+
+        // Добавляем оставшиеся элементы из правого подмассива
+        while (j < right.size()) {
+            result.add(right.get(j));
+            j++;
+        }
+
+        return result;
+    }
+
+    // Функция сортировки слиянием
+    public static List<Integer> mergeSort(List<Integer> arr) {
+        // Базовый случай: массив длиной 0 или 1 уже отсортирован
+        if (arr.size() <= 1) {
+            return arr;
+        }
+
+        // Находим середину массива
+        int mid = arr.size() / 2;
+
+        // Делим массив на две части
+        List<Integer> left = arr.subList(0, mid);
+        List<Integer> right = arr.subList(mid, arr.size());
+
+        // Рекурсивно сортируем каждую часть
+        left = mergeSort(new ArrayList<>(left)); // Создаем копии, чтобы избежать проблем с subList
+        right = mergeSort(new ArrayList<>(right)); // Создаем копии, чтобы избежать проблем с subList
+
+        // Сливаем отсортированные части
+        return merge(left, right);
+    }
+
+
+    // Функция для вывода массива
+    public static void printArray(List<Integer> arr) {
+        for (int value : arr) {
+            System.out.print(value + " ");
+        }
+        System.out.println();
+    }
+
+    public static void main(String[] args) {
+        List<Integer> array = new ArrayList<>();
+        array.add(38);
+        array.add(27);
+        array.add(43);
+        array.add(3);
+        array.add(9);
+        array.add(82);
+        array.add(10);
+
+        System.out.print("Исходный массив: ");
+        printArray(array);
+
+        List<Integer> sorted_array = mergeSort(array);
+
+        System.out.print("Отсортированный массив: ");
+        printArray(sorted_array);
+    }
+}
