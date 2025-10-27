@@ -1,0 +1,79 @@
+public class FibonacciSearch {
+
+    // Функция для генерации чисел Фибоначчи
+    static int[] fibonacci(int n) {
+        int[] fib = new int[n + 1];
+        fib[0] = 0;
+        fib[1] = 1;
+        for (int i = 2; i <= n; i++) {
+            fib[i] = fib[i - 1] + fib[i - 2];
+        }
+        return fib;
+    }
+
+    // Функция поиска Фибоначчи
+    public static int fibonacciSearch(int[] arr, int x) {
+        int n = arr.length;
+        int[] fib = fibonacci(n); // Генерируем массив чисел Фибоначчи
+
+        // Находим наименьшее число Фибоначчи, большее или равное n
+        int fibM_2 = fib[0];  // fib(m-2)
+        int fibM_1 = fib[1];  // fib(m-1)
+        int fibM = fib[2];    // fib(m)
+        int m = 2;
+
+        while (fibM < n) {
+            fibM_2 = fibM_1;
+            fibM_1 = fibM;
+            fibM = fib[++m];
+        }
+
+        // Маркеры для элементов, которые не входят в массив
+        int offset = -1;
+
+        // Поиск
+        while (fibM > 1) {
+            // Проверяем возможный индекс
+            int i = Math.min(offset + fibM_2, n - 1);
+
+            // Если x больше элемента, переходим к правому подмассиву
+            if (arr[i] < x) {
+                fibM = fibM_1;
+                fibM_1 = fibM_2;
+                fibM_2 = fibM - fibM_1;
+                offset = i;
+            }
+
+            // Если x меньше элемента, переходим к левому подмассиву
+            else if (arr[i] > x) {
+                fibM = fibM_2;
+                fibM_1 = fibM_1 - fibM_2;
+                fibM_2 = fibM - fibM_1;
+            }
+
+            // Элемент найден
+            else {
+                return i;
+            }
+        }
+
+        // Проверяем последний элемент
+        if (fibM_1 == 1 && offset + 1 < n && arr[offset + 1] == x) {
+            return offset + 1;
+        }
+
+        return -1;  // Элемент не найден
+    }
+
+    public static void main(String[] args) {
+        int[] arr = {10, 22, 35, 40, 45, 50, 80, 82, 85, 90, 100};
+        int x = 85;
+        int result = fibonacciSearch(arr, x);
+
+        if (result == -1) {
+            System.out.println("Элемент не найден");
+        } else {
+            System.out.println("Элемент найден на позиции: " + result);
+        }
+    }
+}
