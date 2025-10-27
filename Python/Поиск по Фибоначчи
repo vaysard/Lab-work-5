@@ -1,0 +1,65 @@
+def fibonacci(n):
+    fib = [0] * (n + 1)
+    fib[0] = 0
+    fib[1] = 1
+    for i in range(2, n + 1):
+        fib[i] = fib[i - 1] + fib[i - 2]
+    return fib
+
+def fibonacciSearch(arr, x):
+    n = len(arr)
+    fib = fibonacci(n)
+
+    # Находим наименьшее число Фибоначчи, большее или равное n
+    fibM_2 = fib[0]
+    fibM_1 = fib[1]
+    fibM = fib[2]
+    m = 2
+
+    while fibM < n:
+        fibM_2 = fibM_1
+        fibM_1 = fibM
+        m += 1
+        fibM = fib[m]
+
+    # Маркеры для элементов, которые не входят в массив
+    offset = -1
+
+    # Поиск
+    while fibM > 1:
+        # Проверяем возможный индекс
+        i = min(offset + fibM_2, n - 1)
+
+        # Если x больше элемента, переходим к правому подмассиву
+        if arr[i] < x:
+            fibM = fibM_1
+            fibM_1 = fibM_2
+            fibM_2 = fibM - fibM_1
+            offset = i
+
+        # Если x меньше элемента, переходим к левому подмассиву
+        elif arr[i] > x:
+            fibM = fibM_2
+            fibM_1 = fibM_1 - fibM_2
+            fibM_2 = fibM - fibM_1
+
+        # Элемент найден
+        else:
+            return i
+
+    # Проверяем последний элемент
+    if fibM_1 == 1 and offset + 1 < n and arr[offset + 1] == x:
+        return offset + 1
+
+    return -1  # Элемент не найден
+
+
+if __name__ == "__main__":
+    arr = [10, 22, 35, 40, 45, 50, 80, 82, 85, 90, 100]
+    x = 85
+    result = fibonacciSearch(arr, x)
+
+    if result == -1:
+        print("Элемент не найден")
+    else:
+        print("Элемент найден на позиции:", result)
